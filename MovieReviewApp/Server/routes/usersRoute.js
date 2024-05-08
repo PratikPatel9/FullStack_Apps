@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middlewares/AuthMiddleware");
 
 // Register Route
 router.post("/register", async (req, res) => {
@@ -37,13 +38,30 @@ router.post("/login", async (req, res) => {
     );
     if (!isPasswordCorrect) throw new Error("Invalid Password");
     // create Token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRETE, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d"
     });
     // handle Success response
     res
       .status(200)
       .json({ message: "Login SuccessFull", success: true, data: token });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+});
+
+// GET current User Route (Protected through middleware)
+
+router.get("/getCurrentUser", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    res
+      .status(200)
+      .json({
+        message: "User fetched Successfully",
+        success: true,
+        data: user
+      });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
