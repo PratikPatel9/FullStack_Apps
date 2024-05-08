@@ -8,13 +8,18 @@ const apiRequest = async ({ method, endPoint, payload, queryStrings }) => {
         method,
         url: endPoint,
         data: payload,
-        params: queryStrings
-      },
-      {
+        params: queryStrings,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       }
+
+      // after moving below headere to the above code, i wont get any spilt of undefined error
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem("token")}`
+      //   }
+      // }
     );
     return response.data;
   } catch (error) {

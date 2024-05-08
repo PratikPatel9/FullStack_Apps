@@ -15,3 +15,10 @@ export const LoginUser = async (payload) => {
     payload
   });
 };
+
+export const GetCurrentUser = async () => {
+  return await apiRequest({
+    method: "GET",
+    endPoint: "/api/users/getCurrentUser"
+  });
+};
