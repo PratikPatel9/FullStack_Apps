@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
       .status(200)
       .json({ message: "User Registered Successfully!!", sucsess: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, success: flase });
+    res.status(500).json({ message: error.message, success: false });
   }
 });
 
@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     // checking that USer present in database
-    const user = await User.findOne({ email: req.params.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) throw new Error("User with this email does not EXIST");
     // check if password is correct or not
     const isPasswordCorrect = await bcrypt.compare(
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
       .status(200)
       .json({ message: "Login SuccessFull", success: true, data: token });
   } catch (error) {
-    res.status(500).json({ message: error.message, success: flase });
+    res.status(500).json({ message: error.message, success: false });
   }
 });
 

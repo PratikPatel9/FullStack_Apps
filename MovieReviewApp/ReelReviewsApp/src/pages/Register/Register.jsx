@@ -1,12 +1,31 @@
-import React from "react";
-import { Form, Button } from "antd";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Form, Button, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { RegisterUser } from "../../API/users";
+import { antValidationError } from "../../helpers/helper";
 
 const Register = () => {
-  const handleSubmit = (values) => {
-    console.log("Login Data :", values);
-  };
+  // const [form] = Form.useForm(); // create a form instance so we can use it to clear the form
+  const navigate = useNavigate();
 
+  const handleSubmit = async (values) => {
+    // console.log("Login Data :", values);
+    try {
+      const response = await RegisterUser(values);
+      message.success(response.message);
+      console.log(values);
+      navigate("/login");
+      // form.resetFields(); // clear the form fields
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+  // validate token from home page, where once token is genrated I wont allow user to go on Login or registerpage using below useEffect
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <div className="grid grid-cols-2 h-screen">
@@ -29,16 +48,36 @@ const Register = () => {
               className="flex flex-col gap-5 mt-3"
               onFinish={handleSubmit}
             >
-              <Form.Item label="First Name" name="firstName" value="firstName">
+              <Form.Item
+                label="First Name"
+                name="firstName"
+                value="firstName"
+                rules={antValidationError}
+              >
                 <input />
               </Form.Item>
-              <Form.Item label="Last Name" name="lastName" value="lastName">
+              <Form.Item
+                label="Last Name"
+                name="lastName"
+                value="lastName"
+                rules={antValidationError}
+              >
                 <input />
               </Form.Item>
-              <Form.Item label="Email" name="email" value="email">
-                <input type="email"/>
+              <Form.Item
+                label="Email"
+                name="email"
+                value="email"
+                rules={antValidationError}
+              >
+                <input type="email" />
               </Form.Item>
-              <Form.Item label="Password" name="password" value="password">
+              <Form.Item
+                label="Password"
+                name="password"
+                value="password"
+                rules={antValidationError}
+              >
                 <input type="password" />
               </Form.Item>
               <div className="flex flex-col gap-5">

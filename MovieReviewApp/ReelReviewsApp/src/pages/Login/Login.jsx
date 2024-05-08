@@ -1,11 +1,31 @@
 import React from "react";
-import { Form, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Button, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginUser } from "../../API/users";
+import { useEffect } from "react";
+import { antValidationError } from "../../helpers/helper";
 
 const Login = () => {
-  const handleSubmit = (values) => {
-    console.log("Login Data :", values);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    try {
+      const response = await LoginUser(values);
+      // storing token into loca storage
+      localStorage.setItem("token", response.data);
+      message.success(response.message);
+      navigate('/')
+      console.log(values);
+    } catch (error) {
+      message.error(error.message);
+    }
   };
+  // validate token
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      navigate('/');
+    }
+  },[])
 
   return (
     <>
@@ -29,10 +49,14 @@ const Login = () => {
               className="flex flex-col gap-5 mt-3"
               onFinish={handleSubmit}
             >
-              <Form.Item label="Email" name="email">
+              <Form.Item label="Email" name="email" rules={antValidationError}>
                 <input type="email" />
               </Form.Item>
-              <Form.Item label="Password" name="password">
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={antValidationError}
+              >
                 <input type="password" />
               </Form.Item>
               <div className="flex flex-col gap-5">
