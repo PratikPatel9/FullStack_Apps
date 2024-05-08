@@ -3,15 +3,20 @@ import { message } from "antd";
 import { useState, useEffect } from "react";
 import { GetCurrentUser } from "../API/users.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch , useSelector } from "react-redux";
+import { SetUser } from "../redux/usersSlice.js";
 
 const ProtectedPage = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+  const dispatch = useDispatch(); //i used this hook because i want user i want it from global store
+  const { user } = useSelector((state) => state.users);
   const navigate = useNavigate();
 
   const getCurrentUser = async () => {
     try {
       const response = await GetCurrentUser();
-      setUser(response.data);
+      // setUser(response.data);
+      dispatch(SetUser(response.data));
     } catch (error) {
       message.error(error.message);
     }
