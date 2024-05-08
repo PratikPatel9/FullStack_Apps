@@ -1,13 +1,18 @@
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Home from "./pages/Home/Home";
 
 function App() {
-  
-
   return (
     <>
-      <div className="flex justify-center h-screen items-center bg-blue-400">
-        <h1 className="text-7xl text-white">Reel Review App!</h1>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
