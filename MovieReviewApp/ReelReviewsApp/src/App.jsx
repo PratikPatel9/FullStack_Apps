@@ -30,7 +30,7 @@ function App() {
                 <Profile />
               </ProtectedPage>
             }
-          />
+          />c
           <Route
             path="/admin"
             element={

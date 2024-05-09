@@ -18,15 +18,15 @@ const ArtistSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    debuteYear: {
+    debutYear: {
       type: Number,
       required: true
     },
-    debuteMovie: {
+    proffession: {
       type: String,
       required: true
     },
-    proffession: {
+    debutMovie: {
       type: String,
       required: true
     },
