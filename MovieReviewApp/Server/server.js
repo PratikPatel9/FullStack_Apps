@@ -5,8 +5,10 @@ const app = express();
 
 app.use(express.json());
 const userRoute = require("./routes/usersRoute");
+const artistsRoute = require("./routes/artistRoute");
 
 app.use("/api/users", userRoute);
+app.use("/api/artists", artistsRoute);
 
 const PORT = process.env.PORT || 6001;
 
