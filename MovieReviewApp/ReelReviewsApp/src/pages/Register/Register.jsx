@@ -3,20 +3,25 @@ import { Form, Button, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../API/users";
 import { antValidationError } from "../../helpers/helper";
+import { SetLoading } from "../../redux/loadersSlice";
 
 const Register = () => {
   // const [form] = Form.useForm(); // create a form instance so we can use it to clear the form
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     // console.log("Login Data :", values);
     try {
+      dispatch(SetLoading(true));
       const response = await RegisterUser(values);
+      dispatch(SetLoading(false));
       message.success(response.message);
       console.log(values);
       navigate("/login");
       // form.resetFields(); // clear the form fields
     } catch (error) {
+      dispatch(SetLoading(false));
       message.error(error.message);
     }
   };

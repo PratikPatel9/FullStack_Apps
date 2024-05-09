@@ -3,8 +3,9 @@ import { message } from "antd";
 import { useState, useEffect } from "react";
 import { GetCurrentUser } from "../API/users.js";
 import { useNavigate } from "react-router-dom";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice.js";
+import { SetLoading } from "../redux/loadersSlice.js";
 
 const ProtectedPage = ({ children }) => {
   // const [user, setUser] = useState(null);
@@ -14,10 +15,13 @@ const ProtectedPage = ({ children }) => {
 
   const getCurrentUser = async () => {
     try {
+      dispatch(SetLoading(true));
       const response = await GetCurrentUser();
+      dispatch(SetLoading(false));
       // setUser(response.data);
       dispatch(SetUser(response.data));
     } catch (error) {
+      dispatch(SetLoading(false));
       message.error(error.message);
     }
   };

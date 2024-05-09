@@ -4,13 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../API/users";
 import { useEffect } from "react";
 import { antValidationError } from "../../helpers/helper";
+import { useDispatch } from 'react-redux';
+import { SetLoading } from "../../redux/loadersSlice.js";
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleSubmit = async (values) => {
     try {
+      dispatch(SetLoading(true));
       const response = await LoginUser(values);
+      dispatch(SetLoading(false));
       // storing token into loca storage
       localStorage.setItem("token", response.data);
       message.success(response.message);
