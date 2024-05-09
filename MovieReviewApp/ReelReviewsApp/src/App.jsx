@@ -6,12 +6,13 @@ import ProtectedPage from "./components/ProtectedPage";
 import Profile from "./pages/Profile";
 import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
+import AdminIndex from "./pages/Admin/adminIndex";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
   return (
     <>
-    {loading && <Spinner/>}
+      {loading && <Spinner />}
       <BrowserRouter>
         <Routes>
           <Route
@@ -27,6 +28,14 @@ function App() {
             element={
               <ProtectedPage>
                 <Profile />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedPage>
+                <AdminIndex />
               </ProtectedPage>
             }
           />

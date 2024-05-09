@@ -17,15 +17,17 @@ button{
     height: 45px !important;
     border-radius: 2px !important;
 }
-input {
+input, select, textarea{
     height: 45px;
-    width: 100%;
-    border: 1px solid #003459;
+    width: 100% !important;
+    border: 1px solid #003459 !important;
     padding-left: 20px;
+    border-radius: 2px !important;
 }
-input:focus {
-    outline: none;
+input:focus, select:focus, textarea:focus{
+    outline: none !important;
     border: 1px solid #003459;
+    box-shadow: none !important;
 }
 .ant-form-item{
     margin-bottom: 0px !important;
@@ -37,7 +39,11 @@ a{
 a:hover {
     color : blue
 }
-i{
+i {
     font-size: 20px;
     cursor: pointer;
+}
+
+.ant-form-item-label {
+    padding: 0px !important;
 }

@@ -6,6 +6,14 @@ const ArtistSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    dob: {
+      type: Date,
+      required: true
+    },
+    bio: {
+      type: String,
+      required: true
+    },
     profilePic: {
       type: String,
       required: true

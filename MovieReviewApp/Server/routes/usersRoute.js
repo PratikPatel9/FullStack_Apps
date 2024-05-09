@@ -55,13 +55,11 @@ router.post("/login", async (req, res) => {
 router.get("/getCurrentUser", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
-    res
-      .status(200)
-      .json({
-        message: "User fetched Successfully",
-        success: true,
-        data: user
-      });
+    res.status(200).json({
+      message: "User fetched Successfully",
+      success: true,
+      data: user
+    });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
