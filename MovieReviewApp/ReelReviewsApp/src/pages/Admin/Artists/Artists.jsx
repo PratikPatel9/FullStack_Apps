@@ -51,9 +51,8 @@ const Artists = () => {
       title: "Artist",
       dataIndex: "profile",
       render: (text, record) => {
-        return (
-          <img src={record?.profilePic} alt="" className="w-20 h-20 rounded" />
-        );
+        const imageUrl = record?.images?.[0] || "";
+        return <img src={imageUrl} alt="" className="w-20 h-20 rounded" />;
       }
     },
     {
@@ -92,13 +91,13 @@ const Artists = () => {
                 setSelectedArtist(record);
                 setShowArtistForm(true);
               }}
-            />
+            ></i>
             <i
               className="ri-delete-bin-6-fill"
               onClick={() => {
                 deleteArtist(record._id);
               }}
-            />
+            ></i>
           </div>
         );
       }
@@ -122,7 +121,7 @@ const Artists = () => {
             Add Artist
           </Button>
         </div>
-        <Table dataSource={artists} columns={columns} className="mt-5"/>
+        <Table dataSource={artists} columns={columns} className="mt-5" />
         {showArtistForm && (
           <ArtistForm
             showArtistForm={showArtistForm}

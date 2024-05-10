@@ -14,9 +14,13 @@ const ArtistSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    profilePic: {
-      type: String,
-      required: true
+    // profilePic: {
+    //   type: String,
+    //   required: true
+    // },
+    images: {
+      type: [],
+      required: false
     },
     debutYear: {
       type: Number,
