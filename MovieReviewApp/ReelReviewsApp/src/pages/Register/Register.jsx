@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../API/users";
 import { antValidationError } from "../../helpers/helper";
 import { SetLoading } from "../../redux/loadersSlice";
+import { useDispatch } from "react-redux";
+
 
 const Register = () => {
   // const [form] = Form.useForm(); // create a form instance so we can use it to clear the form
@@ -56,7 +58,6 @@ const Register = () => {
               <Form.Item
                 label="First Name"
                 name="firstName"
-                value="firstName"
                 rules={antValidationError}
               >
                 <input />
@@ -64,23 +65,16 @@ const Register = () => {
               <Form.Item
                 label="Last Name"
                 name="lastName"
-                value="lastName"
                 rules={antValidationError}
               >
                 <input />
               </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                value="email"
-                rules={antValidationError}
-              >
+              <Form.Item label="Email" name="email" rules={antValidationError}>
                 <input type="email" />
               </Form.Item>
               <Form.Item
                 label="Password"
                 name="password"
-                value="password"
                 rules={antValidationError}
               >
                 <input type="password" />
@@ -89,8 +83,11 @@ const Register = () => {
                 <Button type="primary" htmlType="submit" block>
                   Register
                 </Button>
-
-                <Link to="/login">Already have an Account? Login Here</Link>
+                <div className="flex justify-center">
+                  <span>
+                    Already have an Account? <Link to="/login"> Login </Link>
+                  </span>
+                </div>
               </div>
             </Form>
           </div>

@@ -18,7 +18,7 @@ button{
     border-radius: 2px !important;
 }
 input, select, textarea{
-    height: 45px;
+    height: 45px !important;
     width: 100% !important;
     border: 1px solid #003459 !important;
     padding-left: 20px;
@@ -27,6 +27,11 @@ input, select, textarea{
 input:focus, select:focus, textarea:focus{
     outline: none !important;
     border: 1px solid #003459;
+    box-shadow: none !important;
+}
+textarea{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
     box-shadow: none !important;
 }
 .ant-form-item{
@@ -49,5 +54,19 @@ i {
 }
 
 table {
-    border: 1px solid #c0c0c0 !important;
+    border: 1px solid !important;
+}
+.ant-select-selector{
+    border: 1px solid #6d6d6d !important;
+    border-radius: 2px !important;
+    height: 40px !important;
+}
+.ant-select-selector{
+    border: 1px solid #6d6d6d !important;
+    box-shadow: none !important;
+     height: 40px !important;
+}
+.ant-select-selector input {
+    height: 40px !important;
+    border: none !important;
 }

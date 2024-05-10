@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";
+import MovieForm from "./pages/Admin/Movies/MovieForm";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -30,12 +31,29 @@ function App() {
                 <Profile />
               </ProtectedPage>
             }
-          />c
+          />
+
           <Route
             path="/admin"
             element={
               <ProtectedPage>
                 <AdminIndex />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/admin/movies/add"
+            element={
+              <ProtectedPage>
+                <MovieForm />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/admin/movies/edit/:id"
+            element={
+              <ProtectedPage>
+                <MovieForm />
               </ProtectedPage>
             }
           />

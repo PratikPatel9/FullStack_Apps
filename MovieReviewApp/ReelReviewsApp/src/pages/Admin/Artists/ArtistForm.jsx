@@ -182,7 +182,7 @@ const ArtistForm = ({
                   label="Profile Picture : "
                   // name="profilePic"
                   name="images"
-                  rules={antValidationError}
+                  // rules={antValidationError}
                 >
                   <input type="text" placeholder="Image Url" />
                 </Form.Item>

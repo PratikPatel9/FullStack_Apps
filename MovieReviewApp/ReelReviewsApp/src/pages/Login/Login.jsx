@@ -67,8 +67,11 @@ const Login = () => {
                 <Button type="primary" htmlType="submit" block>
                   Login
                 </Button>
-
-                <Link to="/register">Dont' have an Account? Register Here</Link>
+                <div className="flex justify-center">
+                  <span>
+                    Don't have an Account? <Link to="/register"> Register </Link>
+                  </span>
+                </div>
               </div>
             </Form>
           </div>

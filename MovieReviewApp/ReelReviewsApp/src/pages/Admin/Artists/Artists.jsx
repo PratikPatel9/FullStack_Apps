@@ -19,8 +19,20 @@ const Artists = () => {
     try {
       dispatch(SetLoading(true));
       const response = await GetAllArtists();
-      console.log(response.data);
-      setArtists(response.data);
+      // console.log(response.data);
+      const updatedArtists = response.data.map((artist) => {
+        let images = artist.images || [];
+
+        // Check if profilePic is a link, if so, move it to the images array
+        if (artist.profilePic && typeof artist.profilePic === "string") {
+          images.push(artist.profilePic);
+        }
+
+        // Update the artist object with the new images array
+        return { ...artist, images };
+      });
+      setArtists(updatedArtists);
+      // setArtists(response.data);
       dispatch(SetLoading(false));
     } catch (error) {
       message.error(error.message);
