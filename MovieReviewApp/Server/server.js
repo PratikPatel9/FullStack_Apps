@@ -4,14 +4,17 @@ require("dotenv").config();
 const db = require("./database/db");
 app.use(express.json());
 
-
+// importing Routes
 const userRoute = require("./routes/usersRoute");
 const artistsRoute = require("./routes/artistRoute");
-const imagesRoute = require('./routes/imagesRoute.js');
+const imagesRoute = require("./routes/imagesRoute");
+const moviesRoute = require("./routes/moviesRoute");
 
+// exporting routes
 app.use("/api/users", userRoute);
 app.use("/api/artists", artistsRoute);
 app.use("/api/images", imagesRoute);
+app.use("/api/movies", moviesRoute);
 
 const PORT = process.env.PORT || 6001;
 

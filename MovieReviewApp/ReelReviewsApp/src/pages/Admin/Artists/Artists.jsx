@@ -10,8 +10,8 @@ import { getDateFormat } from "../../../helpers/helper";
 const Artists = () => {
   const [artists, setArtists] = useState([]);
   const dispatch = useDispatch();
-  const [showArtistForm, setShowArtistForm] = React.useState(false);
-  const [selectedArtist, setSelectedArtist] = React.useState(null);
+  const [showArtistForm, setShowArtistForm] = useState(false);
+  const [selectedArtist, setSelectedArtist] = useState(null);
   const navigate = useNavigate();
 
   // First need to fectch all the Artists for Update Artist data
@@ -59,6 +59,13 @@ const Artists = () => {
   // i need to set Columns for table data that should be match with mongodb database EXACTLY
 
   const columns = [
+    // {
+    //   title: "Artist",
+    //   dataIndex: "profile",
+    //   render: (text,record) => {
+    //     return <img src={record?.profilePic} alt="" className="w-20 h-20 rounded" />;
+    //   }
+    // },
     {
       title: "Artist",
       dataIndex: "profile",

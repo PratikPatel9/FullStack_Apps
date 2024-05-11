@@ -27,7 +27,7 @@ router.get("/", authMiddleware, async (req, res) => {
 
 router.get("/:id", authMiddleware, async (req, res) => {
   try {
-    const artist = await Artist.findById();
+    const artist = await Artist.findById(req.params.id);
     res.json({ data: artist, success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });

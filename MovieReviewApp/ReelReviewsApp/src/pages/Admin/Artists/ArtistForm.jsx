@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { SetLoading } from "../../../redux/loadersSlice.js";
 import { AddArtist, UpadateArtist } from "../../../API/artist";
 import moment from "moment";
-import { UploadImage } from "../../../API/image.js";
+import { UploadImage } from "../../../API/images.js";
 
 const ArtistForm = ({
   showArtistForm,
@@ -47,11 +47,19 @@ const ArtistForm = ({
 
   const imageUpload = async () => {
     try {
+      if (!file) {
+        message.error("No file selected");
+        return;
+      }
       // sending a image data as binary form thats why i used here file
       const formData = new FormData();
+      console.log(formData);
       formData.append("image", file);
+
+      console.log(formData);
       dispatch(SetLoading(true));
       const response = await UploadImage(formData);
+      console.log(response);
       if (response.success) {
         await UpadateArtist(selectedArtist._id, {
           ...selectedArtist,
@@ -78,9 +86,9 @@ const ArtistForm = ({
         images: selectedArtist?.images?.filter((item) => item !== image)
       });
       reloadData();
-      dispatch(SetLoading(false))
+      dispatch(SetLoading(false));
       message.success(response.message);
-      setShowArtistForm(false)
+      setShowArtistForm(false);
     } catch (error) {
       message.error(error.message);
       dispatch(SetLoading(false));
@@ -128,7 +136,8 @@ const ArtistForm = ({
                   name="name"
                   rules={antValidationError}
                 >
-                  <input />
+                  <Input />
+                  {/* <input /> */}
                 </Form.Item>
                 <div className="grid grid-cols-2 gap-5">
                   <Form.Item
@@ -136,14 +145,14 @@ const ArtistForm = ({
                     name="dob"
                     rules={antValidationError}
                   >
-                    <input type="date" />
+                    <Input type="date" />
                   </Form.Item>
                   <Form.Item
                     label="Debut Year : "
                     name="debutYear"
                     rules={antValidationError}
                   >
-                    <input type="number" />
+                    <Input type="number" />
                   </Form.Item>
                 </div>
                 <div className="grid grid-cols-2 gap-5">
@@ -172,7 +181,7 @@ const ArtistForm = ({
                     name="debutMovie"
                     rules={antValidationError}
                   >
-                    <input type="text" />
+                    <Input type="text" />
                   </Form.Item>
                 </div>
                 <Form.Item label="Bio : " name="bio" rules={antValidationError}>
@@ -180,11 +189,11 @@ const ArtistForm = ({
                 </Form.Item>
                 <Form.Item
                   label="Profile Picture : "
-                  // name="profilePic"
-                  name="images"
-                  // rules={antValidationError}
+                  name="profilePic"
+                  // name="images"
+                  rules={antValidationError}
                 >
-                  <input type="text" placeholder="Image Url" />
+                  <Input type="text" />
                 </Form.Item>
               </Form>
             </Tabs.TabPane>
@@ -211,7 +220,6 @@ const ArtistForm = ({
                   </div>
                 ))}
               </div>
-              {/* we need antd upload button */}
               <Upload
                 onChange={(info) => {
                   setFile(info.file);
@@ -220,7 +228,7 @@ const ArtistForm = ({
                 listType="picture"
                 // showUploadList={false}
               >
-                <Button>Upload 📌 </Button>
+                <Button>Click to Upload</Button>
               </Upload>
             </Tabs.TabPane>
           </Tabs>
