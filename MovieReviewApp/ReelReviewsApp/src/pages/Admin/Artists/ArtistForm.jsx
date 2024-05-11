@@ -3,25 +3,42 @@ import { Modal, Form, Input, message } from "antd";
 import { antValidationError } from "../../../helpers/helper";
 import { useDispatch } from "react-redux";
 import { SetLoading } from "../../../redux/loadersSlice.js";
-import { AddArtist } from "../../../API/artist";
+import { AddArtist, UpadateArtist } from "../../../API/artist";
+import moment from "moment";
 
-
-const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
+const ArtistForm = ({
+  showArtistForm,
+  setShowArtistForm,
+  selectedArtist = { selectedArtist },
+  reloadData = { fetchArtist }
+}) => {
   const dispatch = useDispatch();
   // I need to use useForm as reference becuase we dont have button for add/cancel
   //  so, I am using form submision using onOk() method
   const [form] = Form.useForm();
+  // Date is not rendering as in correct format so i need to convert it into a specific format
+  if (selectedArtist) {
+    selectedArtist.dob = moment(selectedArtist.dob).format("YYYY-MM-DD");
+  }
 
   // Logic and Method Area
 
-  const onFinish = async(values) => {
+  const onFinish = async (values) => {
     try {
       dispatch(SetLoading(true));
-      const response = await AddArtist(values)
+      // below line og code simply add the artist but we need to validate
+      // const response = await AddArtist(values);
+      let response;
+      if (selectedArtist) {
+        response = await UpadateArtist(selectedArtist._id, values);
+      } else {
+        response = await AddArtist(values);
+      }
+      reloadData();
       console.log(response);
       dispatch(SetLoading(false));
-      message.success(response.message)
-      setShowArtistForm(false)
+      message.success(response.message);
+      setShowArtistForm(false);
     } catch (error) {
       message.error(error.message);
       dispatch(SetLoading(false));
@@ -34,11 +51,12 @@ const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
     <Modal
       open={showArtistForm}
       onCancel={() => setShowArtistForm(false)}
-      title="Add Artist"
+      // title={selectedArtist ? "Update Artist" : "Add Artist"}
+      title=""
       centered
       width={900}
       // we can use below code as footer when we dont have buttons
-      okText="Add"
+      okText={selectedArtist ? "Update" : "Add "}
       onOk={() => {
         form.submit();
       }}
@@ -48,7 +66,11 @@ const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
         className="flex flex-col gap-5"
         onFinish={onFinish}
         form={form} //without this form we can not get and pass values
+        initialValues={selectedArtist} //passing this initial values to the form from selected artist for update
       >
+        <div className="h1 text-center font-semibold text-gray-600 text-xl uppercase">
+           {selectedArtist ? "Update" : "Add "} Artist 
+        </div>
         <Form.Item label="Name :" name="name" rules={antValidationError}>
           <Input type="text" placeholder="Artist Name" />
         </Form.Item>
@@ -135,10 +157,10 @@ export default ArtistForm;
 //   const [file, setFile] = React.useState(null);
 //   const [selectedTab, setSelectedTab] = React.useState(null);
 //   const [form] = Form.useForm();
-//   // Date is not rendering as correct format so i need to convert it into a specific format
-//   if (selectedArtist) {
-//     selectedArtist.dob = moment(selectedArtist.dob).format("YYYY-MM-DD");
-//   }
+  // // Date is not rendering as correct format so i need to convert it into a specific format
+  // if (selectedArtist) {
+  //   selectedArtist.dob = moment(selectedArtist.dob).format("YYYY-MM-DD");
+  // }
 
 //   const onFinish = async (values) => {
 //     try {

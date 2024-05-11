@@ -58,10 +58,10 @@ i {
 }
 
 table {
-    border: 1px solid !important;
+    border: 1px solid #c0c0c0 !important;
 }
 .ant-select-selector{
-    border: 1px solid #6d6d6d !important;
+    border: 1px solid #888787 !important;
     border-radius: 2px !important;
     height: 40px !important;
 }
