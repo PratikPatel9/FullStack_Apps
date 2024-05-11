@@ -1,28 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+
+import { Tabs } from "antd";
 import Movies from "./Movies/Movies";
 import Artists from "./Artists/Artists";
 import Users from "./Users/Users";
-import { Tabs } from "antd";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-const AdminIndex = () => {
-  // const [activeTab, setActiveTab] = useState(1);
+const IndexAdmin = () => {
   const { user } = useSelector((state) => state.users);
-  // const navigate = useNavigate();
   return (
     <>
       <div>
-        {/* is user has isAdmin = true, user can see the page otherwise NOT */}
-        {/* {user?.isAdmin ? (
-          <Tabs
-            defaultActiveKey="1"
-            activeKey={activeTab}
-            onChange={(key) => {
-              setActiveTab(key);
-              navigate(`/admin?tab=${key}`);
-            }}
-          ></Tabs> */}
         {user?.isAdmin ? (
           <Tabs>
             {/* Above logic in Tabs tag is hust for mappting purpose for using query selector */}
@@ -39,7 +27,7 @@ const AdminIndex = () => {
         ) : (
           <div>
             <div className="text-gray-600 text-xl text-center mt-20">
-              ⛔️ You are not authorized to view this Page !! ⛔️
+              ⛔️ You are not authorized to view this Page!! ⛔️
             </div>
           </div>
         )}
@@ -48,4 +36,4 @@ const AdminIndex = () => {
   );
 };
 
-export default AdminIndex;
+export default IndexAdmin;

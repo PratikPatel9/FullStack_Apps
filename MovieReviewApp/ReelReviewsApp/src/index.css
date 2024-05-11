@@ -13,6 +13,7 @@
 }
 
 button{
+    background-image: linear-gradient(to right, #6253E1, #04BEFE);
     box-shadow: none !important;
     height: 45px !important;
     border-radius: 2px !important;

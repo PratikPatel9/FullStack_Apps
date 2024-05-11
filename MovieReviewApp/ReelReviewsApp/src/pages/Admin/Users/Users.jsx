@@ -1,9 +1,9 @@
-import React from 'react'
+// this file is use to create a Users table
+
+import React from "react";
 
 const Users = () => {
-  return (
-    <div>Users</div>
-  )
-}
+  return <div>Users 2 </div>;
+};
 
-export default Users
+export default Users;

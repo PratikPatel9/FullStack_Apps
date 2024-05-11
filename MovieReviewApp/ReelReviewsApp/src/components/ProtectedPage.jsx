@@ -56,10 +56,12 @@ const ProtectedPage = ({ children }) => {
           ></i>
         </div>
       </div>
-      <div className="p-5">
-        {/* if uswer data presnet then render */}
+
+      {/* is User data present then render otherwis NOT */}
+      {user && <div className="p-5">{children}</div>}
+      {/* <div className="p-5">
         {user && children}
-      </div>
+      </div> */}
     </div>
   );
 };
