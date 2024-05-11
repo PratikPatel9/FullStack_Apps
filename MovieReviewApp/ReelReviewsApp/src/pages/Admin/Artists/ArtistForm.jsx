@@ -1,15 +1,35 @@
 import React from "react";
-import { Modal, Form, Input } from "antd";
-import {antValidationError} from "../../../helpers/helper";
-// import { antValidationError } from "../../../helpers/helper";
+import { Modal, Form, Input, message } from "antd";
+import { antValidationError } from "../../../helpers/helper";
+import { useDispatch } from "react-redux";
+import { SetLoading } from "../../../redux/loadersSlice.js";
+import { AddArtist } from "../../../API/artist";
+
 
 const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
+  const dispatch = useDispatch();
   // I need to use useForm as reference becuase we dont have button for add/cancel
   //  so, I am using form submision using onOk() method
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log(values);
+
+  // Logic and Method Area
+
+  const onFinish = async(values) => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await AddArtist(values)
+      console.log(response);
+      dispatch(SetLoading(false));
+      message.success(response.message)
+      setShowArtistForm(false)
+    } catch (error) {
+      message.error(error.message);
+      dispatch(SetLoading(false));
+    }
   };
+
+  // Render Area Below
+
   return (
     <Modal
       open={showArtistForm}
@@ -51,7 +71,7 @@ const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
         <div className="grid grid-cols-2 gap-5">
           <Form.Item
             label="Proffession"
-            name="proffesion"
+            name="proffession"
             rules={antValidationError}
           >
             {/* <Input type="text" placeholder="Proffession" /> */}
@@ -63,6 +83,7 @@ const ArtistForm = ({ showArtistForm, setShowArtistForm }) => {
               <option value="Producer">Producer</option>
               <option value="Music Director">Music Director</option>
               <option value="Singer">Singer</option>
+              <option value="Writter">Writter</option>
               <option value="Lyricist">Lyricist</option>
               <option value="Cinematographer">Cinematographer</option>
               <option value="Camera Men">Camera Men</option>
@@ -134,9 +155,9 @@ export default ArtistForm;
 //       dispatch(SetLoading(false)); // set loader false
 //       message.success(response.message); //fethcing a message from backend using message
 //       setShowArtistForm(false); //close the pop up artist form after success
-//     } catch (error) {
-//       message.error(error.message);
-//       dispatch(SetLoading(false));
+// } catch (error) {
+//   message.error(error.message);
+//   dispatch(SetLoading(false));
 //     }
 //   };
 
