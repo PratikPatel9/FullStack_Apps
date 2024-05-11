@@ -19,7 +19,7 @@ router.post("/", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const artists = await Artist.find().sort({ createdAt: -1 });
-    console.log(artists);
+    // console.log(artists);
     res.json({ data: artists, success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });

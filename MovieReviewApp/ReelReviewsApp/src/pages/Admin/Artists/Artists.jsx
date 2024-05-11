@@ -1,19 +1,104 @@
 // this file is use to create a Artists table
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button, message, Table } from "antd";
 import ArtistForm from "./ArtistForm";
+import { useDispatch } from "react-redux";
+import { SetLoading } from "../../../redux/loadersSlice";
+import { GetAllArtists } from "../../../API/artist.js";
+import { getDateFormat } from "../../../helpers/helper";
+
 
 const Artists = () => {
+  const [artists, setArtists] = useState([]);
   const [showArtistForm, setShowArtistForm] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // logic to fetch the Artist
+
+  const fetchArtist = async () => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await GetAllArtists();
+      setArtists(response.data);
+      dispatch(SetLoading(false));
+    } catch (error) {
+      message.error(error.message);
+      dispatch(SetLoading(false));
+    }
+  };
+
+  // Colums are most Important for render the Artist details on Page using Tabular format
+
+  const columns = [
+    {
+      title: "Artist",
+      dataIndex: "Profile",
+      render: (text, record) => {
+        return (
+          <img src={record?.profilePic} alt="" className="w-20 h-20 rounded" />
+        );
+      }
+    },
+    {
+      title: "Name",
+      dataIndex: "name"
+    },
+    {
+      title: "Date Of Birth",
+      dataIndex: "dob",
+      render: (text, record) => {
+        return getDateFormat(text);
+      }
+    },
+    {
+      title: "Debut Movie",
+      dataIndex: "debutMovie"
+    },
+    {
+      title: "Debut Year",
+      dataIndex: "debutYear"
+    },
+    // below column will be used for edit and delete operation
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      render: (text, record) => {
+        return (
+          <div className=" flex gap-5">
+            <i
+              className="ri-edit-2-fill"
+              onClick={() => {
+                setSelectedArtist(record);
+                setShowArtistForm(true);
+              }}
+            ></i>
+            <i
+              className="ri-delete-bin-6-fill"
+              onClick={() => {
+                deleteArtist(record._id);
+              }}
+            ></i>
+          </div>
+        );
+      }
+    }
+  ];
+
+  useEffect(() => {
+    fetchArtist();
+  }, []);
 
   return (
     <>
       <div className="flex justify-end">
         <Button onClick={() => setShowArtistForm(true)}> Add Artist 2</Button>
       </div>
+      {/* Create Table that renders column and data from columns */}
+      <Table dataSource={artists} columns={columns} />
+
       {showArtistForm && (
         <ArtistForm
           showArtistForm={showArtistForm}
@@ -36,6 +121,7 @@ export default Artists;
 // import { getDateFormat } from "../../../helpers/helper";
 // import { useNavigate } from "react-router-dom";
 // import { Button } from "antd";
+// import { useDispatch } from "react-redux";
 
 // const Artists = () => {
 //   const [artists, setArtists] = useState([]);
@@ -111,9 +197,9 @@ export default Artists;
 //     {
 //       title: "DOB",
 //       dataIndex: "dob",
-//       render: (text, record) => {
-//         return getDateFormat(text);
-//       }
+      // render: (text, record) => {
+      //   return getDateFormat(text);
+      // }
 //     },
 //     {
 //       title: "Proffession",
@@ -127,30 +213,30 @@ export default Artists;
 //       title: "Debut Movie",
 //       dataIndex: "debutMovie"
 //     },
-//     // below column will be used for edit and delete operation
-//     {
-//       title: "Actions",
-//       dataIndex: "actions",
-//       render: (text, record) => {
-//         return (
-//           <div className=" flex gap-5">
-//             <i
-//               className="ri-edit-2-fill"
-//               onClick={() => {
-//                 setSelectedArtist(record);
-//                 setShowArtistForm(true);
-//               }}
-//             ></i>
-//             <i
-//               className="ri-delete-bin-6-fill"
-//               onClick={() => {
-//                 deleteArtist(record._id);
-//               }}
-//             ></i>
-//           </div>
-//         );
-//       }
-//     }
+    // // below column will be used for edit and delete operation
+    // {
+    //   title: "Actions",
+    //   dataIndex: "actions",
+    //   render: (text, record) => {
+    //     return (
+    //       <div className=" flex gap-5">
+    //         <i
+    //           className="ri-edit-2-fill"
+    //           onClick={() => {
+    //             setSelectedArtist(record);
+    //             setShowArtistForm(true);
+    //           }}
+    //         ></i>
+    //         <i
+    //           className="ri-delete-bin-6-fill"
+    //           onClick={() => {
+    //             deleteArtist(record._id);
+    //           }}
+    //         ></i>
+    //       </div>
+    //     );
+    //   }
+    // }
 //   ];
 
 //   useEffect(() => {
