@@ -18,6 +18,10 @@ const artistSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    images: {
+      type: [],
+      required: false
+    },
     debutYear: {
       type: Number,
       required: true

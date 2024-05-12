@@ -44,7 +44,7 @@ function App() {
               </ProtectedPage>
             }
           />
-          {/* <Route
+          <Route
             path="/admin/movies/add"
             element={
               <ProtectedPage>
@@ -59,7 +59,7 @@ function App() {
                 <MovieForm />
               </ProtectedPage>
             }
-          /> */}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

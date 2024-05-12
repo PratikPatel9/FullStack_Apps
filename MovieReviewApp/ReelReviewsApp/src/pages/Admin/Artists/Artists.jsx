@@ -6,7 +6,7 @@ import { Button, message, Table } from "antd";
 import ArtistForm from "./ArtistForm";
 import { useDispatch } from "react-redux";
 import { SetLoading } from "../../../redux/loadersSlice";
-import { GetAllArtists } from "../../../API/artist.js";
+import { GetAllArtists, DeleteArtist } from "../../../API/artist.js";
 import { getDateFormat } from "../../../helpers/helper";
 
 const Artists = () => {
@@ -53,8 +53,11 @@ const Artists = () => {
       title: "Artist",
       dataIndex: "Profile",
       render: (text, record) => {
+        // const imageUrl = record?.images?.[0] || "";
+        const imageUrl = record?.profilePic || record?.images?.[0] || "";
         return (
-          <img src={record?.profilePic} alt="" className="w-20 h-20 rounded" />
+          // <img src={record?.profilePic} alt="" className="w-20 h-20 rounded" />
+          <img src={imageUrl} alt="" className="w-20 h-20 rounded" />
         );
       }
     },
@@ -121,7 +124,7 @@ const Artists = () => {
         </Button>
       </div>
       {/* Create Table that renders column and data from columns */}
-      <Table dataSource={artists} columns={columns} className="mt-5"/>
+      <Table dataSource={artists} columns={columns} className="mt-5" />
       {/* below selected Artist will select the row of artist that i want to update then use reloadData= { } where i am fetching artist data and 
       then i will pass it to the Artistform */}
       {showArtistForm && (
@@ -149,7 +152,7 @@ export default Artists;
 // import { useNavigate } from "react-router-dom";
 // import { Button } from "antd";
 // import { useDispatch } from "react-redux";
-import { DeleteArtist } from '../../../API/artist';
+// import { DeleteArtist } from '../../../API/artist';
 
 // const Artists = () => {
 //   const [artists, setArtists] = useState([]);
@@ -184,21 +187,21 @@ import { DeleteArtist } from '../../../API/artist';
 //     }
 //   };
 
-  // // Delete Artist data
+// // Delete Artist data
 
-  // const deleteArtist = async (id) => {
-  //   try {
-  //     dispatch(SetLoading(true));
-  //     const response = await DeleteArtist(id);
-  //     // console.log(response.data); //debugg purpose
-  //     message.success(response.message);
-  //     fetchArtists();
-  //     dispatch(SetLoading(false));
-  //   } catch (error) {
-  //     message.error(error.message);
-  //     dispatch(SetLoading(false));
-  //   }
-  // };
+// const deleteArtist = async (id) => {
+//   try {
+//     dispatch(SetLoading(true));
+//     const response = await DeleteArtist(id);
+//     // console.log(response.data); //debugg purpose
+//     message.success(response.message);
+//     fetchArtists();
+//     dispatch(SetLoading(false));
+//   } catch (error) {
+//     message.error(error.message);
+//     dispatch(SetLoading(false));
+//   }
+// };
 
 //   // i need to set Columns for table data that should be match with mongodb database EXACTLY
 

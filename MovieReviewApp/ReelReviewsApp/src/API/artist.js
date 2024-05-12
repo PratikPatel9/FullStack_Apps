@@ -28,7 +28,7 @@ export const GetArtistById = async (id) => {
 };
 
 // Update Artist using Update method ; PUT
-export const UpadateArtist = async (id, payload) => {
+export const UpdateArtist = async (id, payload) => {
   return await apiRequest({
     method: "PUT",
     endPoint: `/api/artists/${id}`,

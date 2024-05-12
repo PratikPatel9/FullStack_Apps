@@ -8,8 +8,8 @@ const authMiddleware = require("../middlewares/AuthMiddleware");
 router.post("/", authMiddleware, async (req, res) => {
   try {
     req.body.createdBy = req.userId;
-    await Artist.create(req.body);
-    // console.log(Artist);
+     await Artist.create(req.body);
+    // console.log(response1);
     res.json({ message: "Artist added Successfully", success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -30,7 +30,7 @@ router.get("/", authMiddleware, async (req, res) => {
 router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const artist = await Artist.findById(req.params.id);
-    console.log(artist);
+    // console.log(artist);
     res.json({ data: artist, success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -40,8 +40,8 @@ router.get("/:id", authMiddleware, async (req, res) => {
 //update Artist
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    await Artist.findByIdAndUpdate(req.params.id, req.body);
-    console.log(Artist);
+    const response2 = await Artist.findByIdAndUpdate(req.params.id, req.body);
+    console.log(response2);
     res.json({ message: "Artist Updated Successfully", success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -51,8 +51,8 @@ router.put("/:id", authMiddleware, async (req, res) => {
 //Delete Artist
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
-    await Artist.findByIdAndDelete(req.params.id);
-    console.log(Artist);
+    const response3 = await Artist.findByIdAndDelete(req.params.id);
+    console.log(response3);
     res.json({ message: "Artist Deleted Successfully", success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
