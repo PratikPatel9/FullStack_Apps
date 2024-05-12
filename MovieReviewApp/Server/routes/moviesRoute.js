@@ -19,7 +19,7 @@ router.post("/", authMiddleware, async (req, res) => {
 // GET ALL Movies
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movie.find()
+    const movies = await Movie.find().sort({ createdAt: -1 })
       .populate("actor")
       .populate("actress")
       .populate("director")
