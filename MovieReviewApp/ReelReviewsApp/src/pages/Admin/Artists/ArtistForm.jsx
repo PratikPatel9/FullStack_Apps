@@ -8,10 +8,10 @@ import { AddArtist, UpdateArtist } from "../../../API/artist";
 import { UploadImage } from "../../../API/images.js";
 import moment from "moment";
 
-
 const ArtistForm = ({
   showArtistForm,
   setShowArtistForm,
+  setSelectedArtist,
   selectedArtist = { selectedArtist },
   reloadData = { fetchArtist }
 }) => {
@@ -49,7 +49,7 @@ const ArtistForm = ({
       dispatch(SetLoading(false));
     }
   };
-// Image Upload Logic 
+  // Image Upload Logic
   const imageUpload = async () => {
     try {
       // to upload image, first i need to convert a file into binary format so backend can process it.
@@ -58,15 +58,16 @@ const ArtistForm = ({
       dispatch(SetLoading(true));
       const response = await UploadImage(formData);
       if (response.success) {
-        await UpdateArtist(selectedArtist._id, {
+        const response2 = await UpdateArtist(selectedArtist._id, {
           ...selectedArtist,
           images: [...(selectedArtist?.images || []), response.data]
         });
+        setSelectedArtist(response2.data);
       }
       reloadData();
       dispatch(SetLoading(false));
       message.success(response.message);
-      setShowArtistForm(false);
+      // setShowArtistForm(false);
       // form.setFieldValue({ profilePic: response.data });
     } catch (error) {
       message.error(error.message);
@@ -83,10 +84,11 @@ const ArtistForm = ({
         ...selectedArtist,
         images: selectedArtist?.images?.filter((item) => item !== image)
       });
+      setSelectedArtist(response.data);
       reloadData();
       dispatch(SetLoading(false));
       message.success(response.message);
-      setShowArtistForm(false);
+      // setShowArtistForm(false);
     } catch (error) {
       message.error(error.message);
       dispatch(SetLoading(false));
