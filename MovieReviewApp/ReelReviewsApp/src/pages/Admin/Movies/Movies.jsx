@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Table, message } from "antd";
 import { useDispatch } from "react-redux";
-import { GetAllMovies } from "../../../API/movies";
+import { DeleteMovie, GetAllMovies } from "../../../API/movies";
 import { SetLoading } from "../../../redux/loadersSlice";
-import {getDateFormat} from  '../../../helpers/helper';
+import { getDateFormat } from "../../../helpers/helper";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -26,7 +26,19 @@ const Movies = () => {
     getMovies();
   }, []);
 
-const deleteMovie = (id) => {};
+  // Delete Movie Logic
+  const deleteMovie = async (id) => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await DeleteMovie(id);
+      message.success(response.success);
+      getMovies();
+      dispatch(SetLoading(false));
+    } catch (error) {
+      message.error(error.message);
+      dispatch(SetLoading(false));
+    }
+  };
   // need to create columns for the movie which hshould as same as moviesModel
 
   const columns = [
@@ -79,8 +91,6 @@ const deleteMovie = (id) => {};
       }
     }
   ];
-
-
 
   return (
     <>

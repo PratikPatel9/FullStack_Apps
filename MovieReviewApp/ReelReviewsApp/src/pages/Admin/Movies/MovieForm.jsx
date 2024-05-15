@@ -85,14 +85,16 @@ const MovieForm = () => {
       dispatch(SetLoading(true));
       const response = await UploadImage(formData);
       if (response.success) {
-        await UpdateMovie(movie._id, {
+        const response2 = await UpdateMovie(movie._id, {
           ...movie,
           posters: [...(movie?.posters || []), response.data]
         });
+        setMovie(response2.data);
+        setFile(null);
       }
       dispatch(SetLoading(false));
       message.success(response.message);
-      navigate("/admin");
+      // navigate("/admin");
       // setShowArtistForm(false);
       // form.setFieldValue({ profilePic: response.data });
     } catch (error) {
@@ -112,7 +114,8 @@ const MovieForm = () => {
       });
       dispatch(SetLoading(false));
       message.success(response.message);
-      navigate("/admin");
+      // navigate("/admin");
+      setMovie(response.data);
       // setShowArtistForm(false);
     } catch (error) {
       message.error(error.message);

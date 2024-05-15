@@ -8,7 +8,7 @@ const authMiddleware = require("../middlewares/AuthMiddleware");
 router.post("/", authMiddleware, async (req, res) => {
   try {
     req.body.createdBy = req.userId;
-     await Artist.create(req.body);
+    await Artist.create(req.body);
     // console.log(response1);
     res.json({ message: "Artist added Successfully", success: true });
   } catch (error) {
@@ -40,9 +40,15 @@ router.get("/:id", authMiddleware, async (req, res) => {
 //update Artist
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const response2 = await Artist.findByIdAndUpdate(req.params.id, req.body);
-    console.log(response2);
-    res.json({ message: "Artist Updated Successfully", success: true });
+    const updatedArtists = await Artist.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    });
+    console.log(updatedArtists);
+    res.json({
+      message: "Artist Updated Successfully",
+      success: true,
+      data: updatedArtists
+    });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }

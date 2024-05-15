@@ -24,7 +24,8 @@ router.get("/", async (req, res) => {
       .populate("actor")
       .populate("actress")
       .populate("director")
-      .populate("createdBy");
+      .populate("createdBy")
+      .sort({ createdAt: -1 });
     res.status(200).json({
       data: movies,
       success: true
@@ -56,11 +57,15 @@ router.get("/:id", async (req, res) => {
 // Update Movie by ID
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body);
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.status(200).json({
-      data: movie,
       success: true,
-      message: "Movie Updated Successfully!! 🎾"
+      message: "Movie Updated Successfully!! 🎾",
+      data: updatedMovie
     });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -93,13 +98,17 @@ router.put("/:id", authMiddleware, async (req, res) => {
 // Delete Movie By ID
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
-    await Movie.findByIdAndDelete(req.params.id);
+    const updatedMovie = await Movie.findByIdAndDelete(req.params.id, {
+      new: true
+    });
     res.status(200).json({
       message: "Movie Deleted Successfully!!  ✅ ",
       success: true
     });
   } catch (error) {
-    res.status(500).json({ message: error.message, success: false });
+    res
+      .status(500)
+      .json({ message: error.message, success: false, data: updatedMovie });
   }
 });
 

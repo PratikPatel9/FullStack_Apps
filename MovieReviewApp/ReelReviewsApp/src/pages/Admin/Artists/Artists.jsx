@@ -132,6 +132,7 @@ const Artists = () => {
           showArtistForm={showArtistForm}
           setShowArtistForm={setShowArtistForm}
           selectedArtist={selectedArtist}
+          setSelectedArtist={setSelectedArtist}
           reloadData={fetchArtist}
         />
       )}
