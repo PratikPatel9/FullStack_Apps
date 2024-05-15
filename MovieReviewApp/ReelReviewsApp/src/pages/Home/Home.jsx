@@ -58,7 +58,12 @@ const Home = () => {
               <div className="flex justify-between text-sm font-semibold">
                 <span>Rating : </span>
                 {/* <span>{movie?.rating || 0}</span> */}
-                <Rate disabled defaultValue={movie?.rating || 0} allowHalf />
+                <Rate
+                  disabled
+                  defaultValue={movie?.rating || 0}
+                  allowHalf
+                  style={{ color: "orange" }}
+                />
               </div>
             </div>
           ))}

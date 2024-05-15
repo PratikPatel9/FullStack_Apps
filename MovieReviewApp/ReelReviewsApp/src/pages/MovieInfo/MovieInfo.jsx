@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { message, Rate } from "antd";
+import { useDispatch } from "react-redux";
+import { Button, message, Rate } from "antd";
 import { GetMovieById } from "../../API/movies";
 import { SetLoading } from "../../redux/loadersSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDateFormat } from "../../helpers/helper";
+import ReviewForm from "./ReviewForm";
 
 const MovieInfo = () => {
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const [movie, setMovie] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const MovieInfo = () => {
               {movie?.name}
             </h1>
             <hr />
-            <div className="flex flex-col gap-1 text-gray-600 w-96 text-sm mt-5">
+            <div className="flex flex-col gap-1 text-gray-600 w-96 text-lg mt-5">
               <div className="flex justify-between">
                 <span>Language :</span>
                 <span className="capitalize">{movie?.language}</span>
@@ -73,15 +75,16 @@ const MovieInfo = () => {
           </div>
         </div>
 
-        <span className="py-5 text-gray-600 text-sm">{movie?.description}</span>
+        <span className="py-5 text-gray-600 text-lg">{movie?.description}</span>
 
         <div className="mt- mb-10">
           <h1 className="text-gray-600 font-semibold text-md"> Cast & Crew </h1>
           <div className="flex mt-5 gap-5">
-            {movie?.cast.map((artist) => {
+            {movie?.cast.map((artist, index) => {
               return (
                 <div
-                  key={artist?.id}
+                  // key={artist?.id}
+                  key={index}
                   className="cursor-pointer"
                   onClick={() => navigate(`/artist/${artist?._id}`)}
                 >
@@ -90,14 +93,31 @@ const MovieInfo = () => {
                     alt=""
                     className="w-32 h-24 rounded"
                   />
-                  <hr/>
-                  <span className="text-sm text-gray-600 text-center">{artist?.name}</span>
+                  <hr />
+                  <span className="text-sm text-gray-600 items-center">
+                    {artist?.name}
+                  </span>
                 </div>
               );
             })}
           </div>
         </div>
         <hr />
+        <div className="flex justify-between items-center mt-5">
+          <span className="text-xl font-semibold">Reviews : </span>
+          <Button type="default" onClick={() => setShowReviewForm(true)}>
+            Add Reviews
+          </Button>
+        </div>
+        {/* import Review pop up model */}
+        {showReviewForm && (
+          <ReviewForm
+            movie={movie}
+            reloadData={getData}
+            showReviewForm={showReviewForm}
+            setShowReviewForm={setShowReviewForm}
+          />
+        )}
       </div>
     )
   );
