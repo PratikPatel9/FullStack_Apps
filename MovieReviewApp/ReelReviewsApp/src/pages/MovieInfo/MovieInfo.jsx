@@ -4,10 +4,12 @@ import { Button, message, Rate } from "antd";
 import { GetMovieById } from "../../API/movies";
 import { SetLoading } from "../../redux/loadersSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDateFormat } from "../../helpers/helper";
+import { getDateFormat , getDateTimeFormat } from "../../helpers/helper";
 import ReviewForm from "./ReviewForm";
+import { GetAllReviews } from "../../API/reviews";
 
 const MovieInfo = () => {
+  const [reviews, setReviews] = useState([]);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [movie, setMovie] = useState(null);
   const dispatch = useDispatch();
@@ -18,6 +20,8 @@ const MovieInfo = () => {
     try {
       dispatch(SetLoading(true));
       const response = await GetMovieById(id);
+      const reviewResponse = await GetAllReviews({ movie: id });
+      setReviews(reviewResponse.data);
       setMovie(response.data);
       dispatch(SetLoading(false));
     } catch (error) {
@@ -108,6 +112,35 @@ const MovieInfo = () => {
           <Button type="default" onClick={() => setShowReviewForm(true)}>
             Add Reviews
           </Button>
+        </div>
+        <div className="mt-5 flex flex-col gap-2">
+          {reviews.map((review) => {
+            return (
+              <div
+                key={review?._id}
+                className="flex justify-between border-solid border p-2 rounded-sm border-gray-300"
+              >
+                <div className="flex flex-col">
+                  <span className="text-gray-600 font-semibold text-md">
+                    {review?.user?.firstName}
+                  </span>
+                  <Rate
+                    disabled
+                    defaultValue={review?.rating || 0}
+                    allowHalf
+                    style={{ color: "orange" }}
+                    className="mt-4"
+                  />
+                  <span>{review?.comment}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-600 text-sm ">
+                    {getDateTimeFormat(review?.createdAt)}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
         {/* import Review pop up model */}
         {showReviewForm && (
