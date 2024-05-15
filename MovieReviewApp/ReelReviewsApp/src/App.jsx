@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";
 import MovieForm from "./pages/Admin/Movies/MovieForm";
 import MovieInfo from "./pages/MovieInfo/MovieInfo";
+import ArtistInfo from "./pages/Artist/ArtistInfo";
 // import IndexAdmin from "./pages/Admin/indexAdmin";
 
 
@@ -40,6 +41,14 @@ function App() {
             element={
               <ProtectedPage>
                 <MovieInfo />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/artist/:id"
+            element={
+              <ProtectedPage>
+                <ArtistInfo />
               </ProtectedPage>
             }
           />
