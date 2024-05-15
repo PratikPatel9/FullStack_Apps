@@ -8,7 +8,7 @@ import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";
 import MovieForm from "./pages/Admin/Movies/MovieForm";
-import IndexAdmin from "./pages/Admin/indexAdmin";
+// import IndexAdmin from "./pages/Admin/indexAdmin";
 
 
 function App() {
@@ -39,8 +39,8 @@ function App() {
             path="/admin"
             element={
               <ProtectedPage>
-                {/* <AdminIndex /> */}
-                <IndexAdmin />
+                <AdminIndex />
+                {/* <IndexAdmin /> */}
               </ProtectedPage>
             }
           />

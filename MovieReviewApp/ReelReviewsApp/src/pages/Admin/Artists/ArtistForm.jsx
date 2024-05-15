@@ -49,7 +49,7 @@ const ArtistForm = ({
       dispatch(SetLoading(false));
     }
   };
-
+// Image Upload Logic 
   const imageUpload = async () => {
     try {
       // to upload image, first i need to convert a file into binary format so backend can process it.

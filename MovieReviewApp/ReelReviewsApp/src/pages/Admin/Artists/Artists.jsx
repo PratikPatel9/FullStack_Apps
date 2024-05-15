@@ -120,7 +120,7 @@ const Artists = () => {
           }}
         >
           {" "}
-          Add Artist 2
+          Add Artist
         </Button>
       </div>
       {/* Create Table that renders column and data from columns */}

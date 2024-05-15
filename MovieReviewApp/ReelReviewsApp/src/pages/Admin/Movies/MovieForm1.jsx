@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Form, Select, Button, message, Upload } from "antd";
+import { Tabs, Form, Select, Button, message } from "antd";
 import { antValidationError } from "../../../helpers/helper";
 import { useDispatch } from "react-redux";
 import { SetLoading } from "../../../redux/loadersSlice";
@@ -7,12 +7,10 @@ import { GetAllArtists } from "../../../API/artist";
 import { AddMovie, GetMovieById, UpdateMovie } from "../../../API/movies";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import { UploadImage } from "../../../API/images.js";
 
 const MovieForm = () => {
   const [artists, setArtists] = useState([]);
-  const [movie, setMovie] = useState(null);
-  const [file, setFile] = useState(null);
+  const [movie, setMovie] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -36,11 +34,12 @@ const MovieForm = () => {
     }
   };
 
+  // get Movie
   const getMovie = async (id) => {
     try {
       dispatch(SetLoading(true));
       const response = await GetMovieById(id);
-      response.data.releaseDate = moment(response.data.releaseDate).format(
+      response.data.resleaseDate = moment(response.data.releaseDate).format(
         "YYYY-MM-DD"
       );
       response.data.cast = response.data?.cast?.map((artist) => artist._id);
@@ -55,8 +54,19 @@ const MovieForm = () => {
       dispatch(SetLoading(false));
     }
   };
+  // Chatgrp code below
+  // const getMovie = async (id) => {
+  //   try {
+  //     dispatch(SetLoading(true));
+  //     const response = await GetMovieById(id);
+  //     setMovie(response.data);
+  //     dispatch(SetLoading(false));
+  //   } catch (error) {
+  //     message.error(error.message);
+  //     dispatch(SetLoading(false));
+  //   }
+  // };
 
-  // form Submit
   const onFinish = async (values) => {
     try {
       dispatch(SetLoading(true));
@@ -67,76 +77,36 @@ const MovieForm = () => {
       } else {
         response = await AddMovie(values);
       }
+      console.log(response);
       message.success(response.message);
-      dispatch(SetLoading(false));
       navigate("/admin");
+      dispatch(SetLoading(false));
     } catch (error) {
       dispatch(SetLoading(false));
       message.error(error.message);
-    }
-  };
-
-  // Image Upload Logic
-  const imageUpload = async () => {
-    try {
-      // to upload image, first i need to convert a file into binary format so backend can process it.
-      const formData = new FormData();
-      formData.append("image", file);
-      dispatch(SetLoading(true));
-      const response = await UploadImage(formData);
-      if (response.success) {
-        await UpdateMovie(movie._id, {
-          ...movie,
-          posters: [...(movie?.posters || []), response.data]
-        });
-      }
-      dispatch(SetLoading(false));
-      message.success(response.message);
-      navigate("/admin");
-      // setShowArtistForm(false);
-      // form.setFieldValue({ profilePic: response.data });
-    } catch (error) {
-      message.error(error.message);
-      dispatch(SetLoading(false));
-    }
-  };
-
-  // Delete Image from upload-update tab
-
-  const deleteImage = async (image) => {
-    try {
-      dispatch(SetLoading(true));
-      const response = await UpdateMovie(movie._id, {
-        ...movie,
-        posters: movie?.posters?.filter((item) => item !== image)
-      });
-      dispatch(SetLoading(false));
-      message.success(response.message);
-      navigate("/admin");
-      // setShowArtistForm(false);
-    } catch (error) {
-      message.error(error.message);
-      dispatch(SetLoading(false));
     }
   };
 
   useEffect(() => {
     getArtists();
+    // if (params?.id) {
+    //   getMovie(params.id);
+    // }
+  }, []);
+
+  useEffect(() => {
     if (params?.id) {
       getMovie(params.id);
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (params?.id) {
-  //     getMovie(params.id);
-  //   }
-  // }, []);
   return (
+    // below line where i have set a condition that if movie shold be present or params.id
+
     (movie || !params.id) && (
       <div>
         <h1 className="text-gray-600 text-xl font-semibold uppercase">
-          {params.id ? "Edit Movie" : "Add Movie"}
+          {/* {params?.id ? "Edit Movie" : "Add Movie"} */} Add movie
         </h1>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Details" key="1">
@@ -169,7 +139,7 @@ const MovieForm = () => {
                 rules={antValidationError}
               >
                 {/* <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} /> */}
-                <textarea autosize={{ minRows: 3, maxRows: 6 }} />
+                <textarea autoSize={{ minRows: 3, maxRows: 6 }} />
               </Form.Item>
               <div className="grid grid-cols-3 gap-5">
                 <Form.Item
@@ -273,57 +243,7 @@ const MovieForm = () => {
               </div>
             </Form>
           </Tabs.TabPane>
-          {/* <Tabs.TabPane tab="Posters" key="2"></Tabs.TabPane> */}
-          <Tabs.TabPane tab="Posters" key="2" disabled={!movie}>
-            <div className="flex flex-wrap gap-5 mb-5">
-              {movie?.posters?.map((image) => (
-                <div
-                  key={image}
-                  className="flex gap-5 border border-dashed p-3"
-                >
-                  <img
-                    src={image}
-                    alt="image"
-                    className="w-20 h-20 object-cover"
-                  />
-                  <i
-                    className="ri-delete-bin-6-fill"
-                    onClick={() => {
-                      deleteImage(image);
-                    }}
-                  ></i>
-                </div>
-              ))}
-            </div>
-            <Upload
-              onChange={(info) => {
-                setFile(info.file);
-              }}
-              beforeUpload={() => false}
-              listType="picture"
-            >
-              <Button>Upload Movie Poster </Button>
-            </Upload>
-            {/*  footer */}
-            <div className="flex justify-end gap-5 mt-5">
-              <Button
-                onClick={() => {
-                  navigate("/admin");
-                }}
-              >
-                {" "}
-                Cancel
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  imageUpload();
-                }}
-              >
-                Upload Now
-              </Button>
-            </div>
-          </Tabs.TabPane>
+          <Tabs.TabPane tab="Posters" key="2"></Tabs.TabPane>
         </Tabs>
       </div>
     )

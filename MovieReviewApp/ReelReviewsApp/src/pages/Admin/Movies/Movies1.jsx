@@ -1,10 +1,24 @@
+
+// this file is use to create a Movies table
+// import React from 'react'
+
+// const Movies = () => {
+//   return (
+//     <div>
+//       Movies 2
+//     </div>
+//   )
+// }
+
+// export default Movies
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Table, message } from "antd";
 import { useDispatch } from "react-redux";
 import { GetAllMovies } from "../../../API/movies";
 import { SetLoading } from "../../../redux/loadersSlice";
-import {getDateFormat} from  '../../../helpers/helper';
+import { getDateFormat } from "../../../helpers/helper";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -14,7 +28,7 @@ const Movies = () => {
   const getMovies = async () => {
     try {
       dispatch(SetLoading(true));
-      const response = await GetAllMovies();
+      const response = await GetAllMovies(id);
       setMovies(response.data);
       dispatch(SetLoading(false));
     } catch (error) {
@@ -22,11 +36,13 @@ const Movies = () => {
       dispatch(SetLoading(false));
     }
   };
+
   useEffect(() => {
     getMovies();
   }, []);
 
-const deleteMovie = (id) => {};
+  const deleteMovie = (id) => {};
+
   // need to create columns for the movie which hshould as same as moviesModel
 
   const columns = [
@@ -38,7 +54,7 @@ const deleteMovie = (id) => {};
         return <img src={imageUrl} alt="" className="w-20 h-20 rounded" />;
       }
     },
-
+  
     {
       title: "Name",
       dataIndex: "name"
@@ -79,8 +95,6 @@ const deleteMovie = (id) => {};
       }
     }
   ];
-
-
 
   return (
     <>

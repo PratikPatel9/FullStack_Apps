@@ -7,6 +7,7 @@ import Users from "./Users/Users";
 import { useSelector } from "react-redux";
 
 const IndexAdmin = () => {
+  // const [activeTab, setActiveTab] = useState(1);
   const { user } = useSelector((state) => state.users);
   return (
     <>
