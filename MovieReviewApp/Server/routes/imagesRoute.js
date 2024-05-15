@@ -52,15 +52,15 @@ router.post(
   async (req, res) => {
     try {
       // Check if file is present in the request
-      if (!req.file) {
-        return res
-          .status(400)
-          .json({ message: "No file uploaded", success: false });
-      }
+      // if (!req.file) {
+      //   return res
+      //     .status(400)
+      //     .json({ message: "No file uploaded", success: false });
+      // }
 
-      console.log("Req file:", req.file);
+      // console.log("Req file:", req.file);
       const response = await cloudinaryConfig.uploader.upload(req.file.path, {
-        folder: "Reel-Review-App"
+        folder: "reel-reviews"
       });
       console.log("Cloudinary upload response:", response);
       const imageUrl = response.secure_url;
@@ -70,7 +70,6 @@ router.post(
         .status(200)
         .json({ message: "Image Uploaded", data: imageUrl, success: true });
     } catch (error) {
-      // Handling any errors
       res.status(500).json({ message: error.message, success: false });
     }
   }

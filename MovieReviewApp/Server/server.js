@@ -6,7 +6,7 @@ app.use(express.json());
 
 // importing Routes
 const userRoute = require("./routes/usersRoute");
-const artistsRoute = require("./routes/artistRoute");
+const artistsRoute = require("./routes/artistsRoute");
 const imagesRoute = require("./routes/imagesRoute");
 const moviesRoute = require("./routes/moviesRoute");
 

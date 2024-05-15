@@ -1,6 +1,6 @@
 import apiRequest from ".";
 
-// thsi uploadImage API that make integration with backedn Upload API and path for upload image
+// this uploadImage API that make integration with backedn Upload API and path for upload image
 
 export const UploadImage = async (payload) => {
   return await apiRequest({

@@ -10,7 +10,7 @@ router.post("/", authMiddleware, async (req, res) => {
     await Movie.create(req.body);
     res
       .status(200)
-      .json({ message: "Movie added Successfully!! 🥳", success: true });
+      .json({ message: "Movie added Successfully!! ✅ ", success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
@@ -20,10 +20,10 @@ router.post("/", authMiddleware, async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const movies = await Movie.find()
+      .sort({ createdAt: -1 })
       .populate("actor")
       .populate("actress")
       .populate("director")
-      .populate("cast")
       .populate("createdBy");
     res.status(200).json({
       data: movies,
@@ -45,8 +45,8 @@ router.get("/:id", async (req, res) => {
       .populate("createdBy");
     res.status(200).json({
       data: movie,
-      message: "Movie fetched Successfully!! 🥳",
-      success: true
+      success: true,
+      message: "Movie fetched Successfully!!  ✅ "
     });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -54,47 +54,48 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update Movie by ID
+router.put("/:id", authMiddleware, async (req, res) => {
+  try {
+    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).json({
+      data: movie,
+      success: true,
+      message: "Movie Updated Successfully!! 🎾"
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+});
+
+// Delete Movie by ID
 // router.put("/:id", async (req, res) => {
 //   try {
-//     await Movie.findByIdAndUpdate(req.params.id, req.body);
+//     const existingMovie = await Movie.findById(req.params.id);
+//     if (!existingMovie) {
+//       return res.status(404).json({ message: "Movie not found 🚫", success: false });
+//     }
+
+//     // Merge existing movie with updated data from request body
+//     const updatedMovieData = { ...existingMovie.toObject(), ...req.body };
+
+//     // Update the movie
+//     await Movie.findByIdAndUpdate(req.params.id, updatedMovieData);
+
 //     res.status(200).json({
-//       message: "Movie Updated Successfully!! 🥳",
+//       message: "Movie Updated Successfully!!  ✅ ",
 //       success: true
 //     });
 //   } catch (error) {
 //     res.status(500).json({ message: error.message, success: false });
 //   }
 // });
-// Update Movie by ID
-router.put("/:id", async (req, res) => {
-  try {
-    const existingMovie = await Movie.findById(req.params.id);
-    if (!existingMovie) {
-      return res.status(404).json({ message: "Movie not found", success: false });
-    }
-
-    // Merge existing movie with updated data from request body
-    const updatedMovieData = { ...existingMovie.toObject(), ...req.body };
-
-    // Update the movie
-    await Movie.findByIdAndUpdate(req.params.id, updatedMovieData);
-
-    res.status(200).json({
-      message: "Movie Updated Successfully!! 🥳",
-      success: true
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message, success: false });
-  }
-});
-
 
 // Delete Movie By ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     await Movie.findByIdAndDelete(req.params.id);
     res.status(200).json({
-      message: "Movie Deleted Successfully!! 🥳",
+      message: "Movie Deleted Successfully!!  ✅ ",
       success: true
     });
   } catch (error) {

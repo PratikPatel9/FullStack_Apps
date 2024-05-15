@@ -7,13 +7,22 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AdminIndex = () => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState("1");
   const { user } = useSelector((state) => state.users);
   const navigate = useNavigate();
   return (
     <>
       <div>
         {/* is user has isAdmin = true, user can see the page otherwise NOT */}
+        {/* {user?.isAdmin ? (
+          <Tabs
+            defaultActiveKey="1"
+            activeKey={activeTab}
+            onChange={(key) => {
+              setActiveTab(key);
+              navigate(`/admin?tab=${key}`);
+            }}
+          ></Tabs> */}
         {user?.isAdmin ? (
           <Tabs
             defaultActiveKey="1"

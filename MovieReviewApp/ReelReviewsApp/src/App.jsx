@@ -8,6 +8,8 @@ import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";
 import MovieForm from "./pages/Admin/Movies/MovieForm";
+// import IndexAdmin from "./pages/Admin/indexAdmin";
+
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -38,6 +40,7 @@ function App() {
             element={
               <ProtectedPage>
                 <AdminIndex />
+                {/* <IndexAdmin /> */}
               </ProtectedPage>
             }
           />

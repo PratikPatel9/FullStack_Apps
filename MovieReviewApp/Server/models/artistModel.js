@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ArtistSchema = new mongoose.Schema(
+const artistSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,26 +14,27 @@ const ArtistSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    // profilePic: {
-    //   type: String,
-    //   required: true
-    // },
+    profilePic: {
+      type: String,
+      required: true
+    },
     images: {
       type: [],
-      required: false,
+      required: false
     },
     debutYear: {
       type: Number,
-      required: true
-    },
-    proffession: {
-      type: String,
       required: true
     },
     debutMovie: {
       type: String,
       required: true
     },
+    proffession: {
+      type: String,
+      required: true
+    },
+    // i used "createBy" because app should know that who created Artists
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
@@ -43,4 +44,4 @@ const ArtistSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("artists", ArtistSchema);
+module.exports = mongoose.model("artists", artistSchema);
