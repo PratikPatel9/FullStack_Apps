@@ -8,6 +8,7 @@ import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";
 import MovieForm from "./pages/Admin/Movies/MovieForm";
+import MovieInfo from "./pages/MovieInfo/MovieInfo";
 // import IndexAdmin from "./pages/Admin/indexAdmin";
 
 
@@ -31,6 +32,14 @@ function App() {
             element={
               <ProtectedPage>
                 <Profile />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/movie/:id"
+            element={
+              <ProtectedPage>
+                <MovieInfo />
               </ProtectedPage>
             }
           />
