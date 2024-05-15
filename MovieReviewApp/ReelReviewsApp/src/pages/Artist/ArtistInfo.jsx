@@ -5,6 +5,7 @@ import { SetLoading } from "../../redux/loadersSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetArtistById } from "../../API/artist";
 import { getDateFormat } from "../../helpers/helper";
+import { GetMoviesByArtistId } from "../../API/movies";
 
 const ArtistInfo = () => {
   const [artist, setArtist] = useState(null);
@@ -18,6 +19,8 @@ const ArtistInfo = () => {
       dispatch(SetLoading(true));
       const artistReposne = await GetArtistById(id);
       setArtist(artistReposne.data);
+      const moviesResponse = await GetMoviesByArtistId(id);
+      setMovies(moviesResponse.data);
       dispatch(SetLoading(false));
     } catch (error) {
       dispatch(SetLoading(false));
@@ -37,7 +40,7 @@ const ArtistInfo = () => {
           alt=""
           className=" h-72 w-96 lg:h-[600px] lg:w-[700px] rounded"
         />
-        <div className="flex flex-col">
+        <div className="flex flex-col"  style={{ width: '100%' }}>
           <h1 className="text-2xl font-semibold text-gray-600 mb-3">
             {artist?.name}
           </h1>
@@ -64,6 +67,32 @@ const ArtistInfo = () => {
               <span className="capitalize">{artist?.bio}</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="mt- mb-10">
+        <h1 className="text-gray-600 font-semibold text-md"> Movies </h1>
+        <div className="flex mt-5 gap-5">
+          {movies.map((movie) => {
+            return (
+              <div
+                key={artist?.id}
+                // key={index}
+                className="cursor-pointer"
+                onClick={() => navigate(`/movie/${movie?._id}`)}
+              >
+                <img
+                  src={movie?.posters[0] || ""}
+                  alt=""
+                  className="w-32 h-24 rounded"
+                />
+                <hr />
+                <span className="text-sm text-gray-600 items-center">
+                  {movie?.name}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -49,8 +49,8 @@ router.post("/", authMiddleware, async (req, res) => {
 // GET ALL REVIEWS BY ID
 router.get("/", async (req, res) => {
   try {
-    const { movie } = req.query;
-    const reviews = await Review.find({ movie })
+    // const { movie } = req.query;
+    const reviews = await Review.find(req.query ||{})
       .sort({ createdAt: -1 })
       .populate("user")
       .populate("movie");

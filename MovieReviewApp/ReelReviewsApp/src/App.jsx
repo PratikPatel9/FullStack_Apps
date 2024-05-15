@@ -3,7 +3,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
 import ProtectedPage from "./components/ProtectedPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 import Spinner from "./components/Spinner";
 import { useSelector } from 'react-redux';
 import AdminIndex from "./pages/Admin/adminIndex";

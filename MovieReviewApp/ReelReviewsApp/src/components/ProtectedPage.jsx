@@ -42,7 +42,7 @@ const ProtectedPage = ({ children }) => {
         >
           Reel Review App
         </span>
-        <div className="bg-white rounded px-8 py-4 flex gap-6 items-center cursor-pointer ">
+        <div className="bg-white rounded px-5 py-4 flex gap-3 items-center cursor-pointer ">
           <i className="ri-user-fill" onClick={() => navigate("/profile")}></i>
           <span className="text-primary text-lg cursor-pointer underline">
             {user?.firstName}
