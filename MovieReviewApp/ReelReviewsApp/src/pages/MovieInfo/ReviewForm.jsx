@@ -1,14 +1,15 @@
 import { Modal, Rate, message } from "antd";
-import React,{ useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SetLoading } from "../../redux/loadersSlice";
-import { AddReviews } from "../../API/reviews";
+import { AddReviews, UpdateReview } from "../../API/reviews";
 
 const ReviewForm = ({
   movie,
   reloadData,
   showReviewForm,
-  setShowReviewForm
+  setShowReviewForm,
+  selectedReview
 }) => {
   const dispatch = useDispatch();
   const [rating, setRating] = useState(0);
@@ -18,11 +19,21 @@ const ReviewForm = ({
     console.log("You have cliked me!!");
     try {
       dispatch(SetLoading(true));
-      const response = await AddReviews({
-        movie: movie._id,
-        rating,
-        comment
-      });
+      let response = null;
+      if (selectedReview) {
+        response = await UpdateReview({
+          _id: selectedReview._id,
+          movie: movie._id,
+          rating,
+          comment
+        });
+      } else {
+        response = await AddReviews({
+          movie: movie._id,
+          rating,
+          comment
+        });
+      }
       message.success(response.message);
       reloadData();
       setShowReviewForm(false);
@@ -33,13 +44,19 @@ const ReviewForm = ({
     }
   };
 
+  useEffect(() => {
+    if (selectedReview) {
+      setRating(selectedReview.rating);
+      setComment(selectedReview.comment);
+    }
+  }, [selectedReview]);
 
   return (
     <Modal
       open={showReviewForm}
       onCancel={() => setShowReviewForm(false)}
       centered
-      title="Add Review"
+      title={selectedReview ? "Update Review " : "Add Review"}
       width={800}
       onOk={addReview}
     >
@@ -48,8 +65,11 @@ const ReviewForm = ({
           <span>Movie : </span>
           <span className="ml-2 font-semibold">{movie?.name}</span>
         </div>
-        <Rate value={rating} onChange={(value) => setRating(value)} allowHalf 
-          style={{color:"orange"}}
+        <Rate
+          value={rating}
+          onChange={(value) => setRating(value)}
+          allowHalf
+          style={{ color: "orange" }}
         />
         <textarea
           value={comment}

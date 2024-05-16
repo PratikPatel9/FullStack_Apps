@@ -8,11 +8,18 @@ export const AddReviews = async (payload) => {
   });
 };
 
-
 export const GetAllReviews = async (payload) => {
   return await apiRequest({
     method: "GET",
     endPoint: `/api/reviews`,
-    queryStrings:payload
+    queryStrings: payload
+  });
+};
+
+export const UpdateReview = async (payload) => {
+  return await apiRequest({
+    method: "PUT",
+    endPoint: `/api/reviews/${payload._id}`,
+    payload
   });
 };

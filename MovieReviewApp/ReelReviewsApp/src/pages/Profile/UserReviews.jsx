@@ -4,11 +4,14 @@ import { Button, message, Rate, Table } from "antd";
 import { SetLoading } from "../../redux/loadersSlice";
 import { GetAllReviews } from "../../API/reviews";
 import { getDateTimeFormat } from "../../helpers/helper";
+import ReviewForm from "../MovieInfo/ReviewForm";
 
 const UserReviews = () => {
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const { user } = useSelector((state) => state.users);
   const [reviews, setReviews] = useState([]);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.users);
 
   const getData = async () => {
     try {
@@ -35,7 +38,7 @@ const UserReviews = () => {
     {
       title: "Rating",
       dataIndex: "rating",
-      render: (text, record) => <Rate disabled value={record.rating} />
+      render: (text, record) => <Rate disabled allowHalf value={record.rating} />
     },
     {
       title: "Review",
@@ -52,7 +55,13 @@ const UserReviews = () => {
       render: (text, record) => {
         return (
           <div className=" flex gap-5">
-            <i className="ri-edit-2-fill" onClick={() => {}}></i>
+            <i
+              className="ri-edit-2-fill"
+              onClick={() => {
+                setSelectedReview(record);
+                setShowReviewForm(true);
+              }}
+            ></i>
             <i className="ri-delete-bin-6-fill" onClick={() => {}}></i>
           </div>
         );
@@ -60,10 +69,21 @@ const UserReviews = () => {
     }
   ];
 
-  return <div>
+  return (
+    <div>
+      <Table dataSource={reviews} columns={columns} />
 
-    <Table  dataSource={reviews} columns={columns} />
-  </div>;
+      {showReviewForm && (
+        <ReviewForm
+          showReviewForm={showReviewForm}
+          setShowReviewForm={setShowReviewForm}
+          selectedReview={selectedReview}
+          reloadData={getData}
+          movie={selectedReview.movie}
+        />
+      )}
+    </div>
+  );
 };
 
 export default UserReviews;
