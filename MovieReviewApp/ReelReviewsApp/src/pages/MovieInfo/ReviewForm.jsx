@@ -23,7 +23,7 @@ const ReviewForm = ({
       if (selectedReview) {
         response = await UpdateReview({
           _id: selectedReview._id,
-          movie: movie._id,
+          movie: movie?._id,
           rating,
           comment
         });

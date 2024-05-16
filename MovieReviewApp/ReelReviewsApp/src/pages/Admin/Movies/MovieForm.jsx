@@ -214,6 +214,7 @@ const MovieForm = () => {
                       { label: "Mystery", value: "mystery" },
                       { label: "Romance", value: "romance" },
                       { label: "Sci-Fi", value: "sci-fi" },
+                      { label: "Suspense", value: "suspense" },
                       { label: "Thriller", value: "thriller" }
                     ].map((genre) => (
                       <Select.Option key={genre.value} value={genre.value}>

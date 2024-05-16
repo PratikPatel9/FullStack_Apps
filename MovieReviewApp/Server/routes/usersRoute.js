@@ -65,4 +65,28 @@ router.get("/getCurrentUser", authMiddleware, async (req, res) => {
   }
 });
 
+// Update USerDetails with new password
+
+router.put("/updateUser", authMiddleware, async (req, res) => {
+  try {
+    const oldPassword = req.body.oldPassword;
+    const user = await User.findById(req.userId);
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordCorrect)
+      throw new Error("The Entered Old Passoword is INCORRECT!");
+
+    const newPassword = await bcrypt.hash(req.body.newPassword, 10);
+    req.body.password = newPassword;
+    const updatedUser = await User.findByIdAndUpdate(req.userId, req.body, {
+      new: true
+    }).select("-password");
+    console.log(updatedUser);
+    res
+      .status(200)
+      .json({ message: "User updated Successfully!!!", success: true, data: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+});
+
 module.exports = router;

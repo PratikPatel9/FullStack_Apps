@@ -50,7 +50,7 @@ const UserReviews = () => {
     {
       title: "Movie",
       dataIndex: "movie",
-      render: (text, record) => record.movie.name
+      render: (text, record) => record.movie?.name
     },
     {
       title: "Rating",

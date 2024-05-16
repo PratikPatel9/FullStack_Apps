@@ -84,7 +84,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
         }
       }
     ]);
-    // console.log(averageRating);
+    console.log(averageRating);
     const averageRatingValue = averageRating[0]?.averageRating || 0;
 
     await Movie.findOneAndUpdate(
@@ -98,7 +98,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
       .status(200)
       .json({ message: "Review UPDATED Successfully ✅ ", success: true });
   } catch (error) {
-    // res.status(500).json({ message: error.message, success: false });
+    res.status(500).json({ message: error.message, success: false });
   }
 });
 
