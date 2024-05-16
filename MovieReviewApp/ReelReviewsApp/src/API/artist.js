@@ -22,8 +22,7 @@ export const GetAllArtists = async () => {
 export const GetArtistById = async (id) => {
   return await apiRequest({
     method: "GET",
-    endPoint: `/api/artists/${id}`,
-    payload
+    endPoint: `/api/artists/${id}`
   });
 };
 

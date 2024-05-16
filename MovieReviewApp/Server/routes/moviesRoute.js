@@ -72,29 +72,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// Delete Movie by ID
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const existingMovie = await Movie.findById(req.params.id);
-//     if (!existingMovie) {
-//       return res.status(404).json({ message: "Movie not found 🚫", success: false });
-//     }
-
-//     // Merge existing movie with updated data from request body
-//     const updatedMovieData = { ...existingMovie.toObject(), ...req.body };
-
-//     // Update the movie
-//     await Movie.findByIdAndUpdate(req.params.id, updatedMovieData);
-
-//     res.status(200).json({
-//       message: "Movie Updated Successfully!!  ✅ ",
-//       success: true
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message, success: false });
-//   }
-// });
-
 // Delete Movie By ID
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
@@ -109,6 +86,24 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     res
       .status(500)
       .json({ message: error.message, success: false, data: updatedMovie });
+  }
+});
+
+// Get Movies by Artist Id
+router.get("/get-movies-by-artist/:id", async (req, res) => {
+  try {
+    const artistId = req.param.id;
+    const movies = await Movie.find({
+      $or: [
+        { actor: artistId },
+        { actress: artistId },
+        { director: artistId },
+        { cast: { $in: [artistId] } }
+      ]
+    });
+    res.status(200).json({ data: movies, success: true });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
   }
 });
 

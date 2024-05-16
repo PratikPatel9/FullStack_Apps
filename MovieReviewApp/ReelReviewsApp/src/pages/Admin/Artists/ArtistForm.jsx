@@ -67,7 +67,7 @@ const ArtistForm = ({
       reloadData();
       dispatch(SetLoading(false));
       message.success(response.message);
-      // setShowArtistForm(false);
+      setShowArtistForm(false);
       // form.setFieldValue({ profilePic: response.data });
     } catch (error) {
       message.error(error.message);

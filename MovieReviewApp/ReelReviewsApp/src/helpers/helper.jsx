@@ -18,3 +18,6 @@ export const getDateFormat = (date) => {
 export const getTimeFormat = (date) => {
   return moment(date).format("MMMM DD, YYYY");
 };
+export const getDateTimeFormat = (date) => {
+  return moment(date).format("MMMM DD, YYYY hh:mm A");
+};

@@ -50,6 +50,11 @@ const movieSchema = new mongoose.Schema(
       ref: "artists",
       required: false
     },
+    rating: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",

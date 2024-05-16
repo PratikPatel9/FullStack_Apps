@@ -35,3 +35,10 @@ export const DeleteMovie = async (id) => {
     endPoint: `/api/movies/${id}`
   });
 };
+
+export const GetMoviesByArtistId = async (id) => {
+  return await apiRequest({
+    method: "GET",
+    endPoint: `/api/movies/get-movies-by-artist/${id}`
+  });
+};
