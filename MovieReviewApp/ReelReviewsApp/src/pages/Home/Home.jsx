@@ -4,12 +4,16 @@ import { message, Rate } from "antd";
 import { GetAllMovies } from "../../API/movies";
 import { SetLoading } from "../../redux/loadersSlice";
 import { useNavigate } from "react-router-dom";
+import Filters from "../../components/Filters";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [filters, setFilters] = useState({
+    search: ""
+  });
 
   const getData = async () => {
     try {
@@ -30,10 +34,10 @@ const Home = () => {
   return (
     <>
       <div>
-        {/* <h1 className="text-2xl font-semibold text-gray-600">
+        <h1 className="text-2xl font-semibold text-gray-600">
           Welcome to the App : {user?.firstName}
-        </h1> */}
-
+        </h1>
+        <Filters filters={filters} setFilters={setFilters}/>
         <div className="grid grid-cols-1 sm-grid-cols-2 lg:grid-cols-4 gap-10 text-gray-600">
           {movies.map((movie) => (
             <div
