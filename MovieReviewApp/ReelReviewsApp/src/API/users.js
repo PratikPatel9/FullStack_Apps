@@ -30,3 +30,10 @@ export const UpdateUser = async (payload) => {
     payload
   });
 };
+
+export const GetAllusers = async () => {
+  return await apiRequest({
+    method: "GET",
+    endPoint: "/api/users/getAllusers"
+  });
+};

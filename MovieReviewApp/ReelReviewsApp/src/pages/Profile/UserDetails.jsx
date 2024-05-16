@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../../redux/usersSlice";
 
 const UserDetails = () => {
-
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
@@ -15,9 +14,13 @@ const UserDetails = () => {
     console.log(values);
     try {
       dispatch(SetLoading(true));
-      const response = await UpdateUser(values);
+      const response = await UpdateUser({
+        ...values,
+        _id: user._id
+      });
       console.log(response.data);
       message.success(response.message);
+
       dispatch(SetUser(response.data));
       dispatch(SetLoading(false));
     } catch (error) {
