@@ -41,3 +41,8 @@
 - Image Uploads
   - upload Images and posters through cloudinary into App
   - upload , retreive and delete image from the MongoDB database
+
+- Filters the Movie
+  - filter based on Movies from Search bar
+  - filter by Language
+  - filter by Gnere
