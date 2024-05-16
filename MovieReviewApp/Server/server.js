@@ -22,6 +22,17 @@ app.use("/api/filters", filtersRoute);
 
 const PORT = process.env.PORT || 6001;
 
+// deploy on Render
+
+const path = require("path");
+__dirname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/ReelReviewsApp/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "ReelReviewsApp", "dist", "index.html"));
+  });
+}
+
 app.listen(PORT, () => {
   console.log(`Node JS Server is listening on PORT : ${PORT}`);
 });
