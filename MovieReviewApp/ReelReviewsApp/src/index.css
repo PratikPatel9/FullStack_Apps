@@ -78,3 +78,17 @@ table {
     height: 22px !important;
     border-radius: 10px !important;
 }
+
+/* QUick Search and Filter feature */
+
+.quickSearch {
+    height: 500px;
+    overflow-y: auto;
+    width: 100%;
+    border: 1px solid #c0c0c0;
+    background-color: white;
+    position: absolute;
+    z-index: 100;
+    top: 42px;
+    box-shadow: 1px 1px 2px #c0c0c0;
+}

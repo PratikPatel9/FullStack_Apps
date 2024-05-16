@@ -8,10 +8,11 @@ export const AddMovie = async (data) => {
   });
 };
 
-export const GetAllMovies = async (data) => {
+export const GetAllMovies = async (payload) => {
   return await apiRequest({
     method: "GET",
-    endPoint: "/api/movies"
+    endPoint: "/api/movies",
+    queryStrings: payload
   });
 };
 
