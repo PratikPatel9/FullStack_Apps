@@ -12,13 +12,13 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    search: ""
+    search: "", genre: "", language: ""
   });
 
   const getData = async () => {
     try {
       dispatch(SetLoading(true));
-      const response = await GetAllMovies();
+      const response = await GetAllMovies(filters);
       setMovies(response.data);
       dispatch(SetLoading(false));
     } catch (error) {
@@ -29,7 +29,7 @@ const Home = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [filters.genre, filters.language]);
 
   return (
     <>
