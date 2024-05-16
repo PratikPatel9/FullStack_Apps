@@ -96,7 +96,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Review UPDATED Success ✅ ", success: true });
+      .json({ message: "Review UPDATED Successfully ✅ ", success: true });
   } catch (error) {
     // res.status(500).json({ message: error.message, success: false });
   }
@@ -105,7 +105,36 @@ router.put("/:id", authMiddleware, async (req, res) => {
 // Delete Review
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
-    
+    await Review.findByIdAndDelete(req.params.id);
+    // calculate average rating of the movie and update in movie using mongoDB query
+    const movieId = new mongoose.Types.ObjectId(req.body.movie);
+    const averageRating = await Review.aggregate([
+      // {
+      //   $match: { movie: req.body.movie }
+      // },
+      {
+        $match: { movie: movieId }
+      },
+      {
+        $group: {
+          _id: "$movie",
+          averageRating: { $avg: "$rating" }
+        }
+      }
+    ]);
+    // console.log(averageRating);
+    const averageRatingValue = averageRating[0]?.averageRating || 0;
+
+    await Movie.findOneAndUpdate(
+      { _id: req.body.movie },
+      {
+        rating: averageRatingValue
+      }
+    );
+
+    res
+      .status(200)
+      .json({ message: "Review DELETED SuccessfuLLy ✅ ", success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }

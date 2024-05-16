@@ -30,9 +30,9 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1 className="text-2xl font-semibold text-gray-600">
+        {/* <h1 className="text-2xl font-semibold text-gray-600">
           Welcome to the App : {user?.firstName}
-        </h1>
+        </h1> */}
 
         <div className="grid grid-cols-1 sm-grid-cols-2 lg:grid-cols-4 gap-10 text-gray-600">
           {movies.map((movie) => (

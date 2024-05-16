@@ -23,3 +23,11 @@ export const UpdateReview = async (payload) => {
     payload
   });
 };
+
+export const DeleteReview = async (payload) => {
+  return await apiRequest({
+    method: "DELETE",
+    endPoint: `/api/reviews/${payload._id}`,
+    payload
+  });
+};

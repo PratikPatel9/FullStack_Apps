@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, message, Rate, Table } from "antd";
+import { message, Rate, Table } from "antd";
 import { SetLoading } from "../../redux/loadersSlice";
-import { GetAllReviews } from "../../API/reviews";
+import { DeleteReview, GetAllReviews } from "../../API/reviews";
 import { getDateTimeFormat } from "../../helpers/helper";
 import ReviewForm from "../MovieInfo/ReviewForm";
 
@@ -25,6 +25,23 @@ const UserReviews = () => {
     }
   };
 
+  // Delete Reviews form User Profile
+  const deleteReview = async (review) => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await DeleteReview({
+        _id: review._id,
+        movie: review.movie._id
+      });
+      message.success(response.message);
+      getData();
+      dispatch(SetLoading(false));
+    } catch (error) {
+      dispatch(SetLoading(false));
+      message.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -38,7 +55,9 @@ const UserReviews = () => {
     {
       title: "Rating",
       dataIndex: "rating",
-      render: (text, record) => <Rate disabled allowHalf value={record.rating} />
+      render: (text, record) => (
+        <Rate disabled allowHalf value={record.rating} />
+      )
     },
     {
       title: "Review",
@@ -62,7 +81,12 @@ const UserReviews = () => {
                 setShowReviewForm(true);
               }}
             ></i>
-            <i className="ri-delete-bin-6-fill" onClick={() => {}}></i>
+            <i
+              className="ri-delete-bin-6-fill"
+              onClick={() => {
+                deleteReview(record);
+              }}
+            ></i>
           </div>
         );
       }

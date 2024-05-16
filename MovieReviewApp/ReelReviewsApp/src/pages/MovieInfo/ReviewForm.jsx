@@ -16,7 +16,7 @@ const ReviewForm = ({
   const [comment, setComment] = useState("");
 
   const addReview = async () => {
-    console.log("You have cliked me!!");
+    // console.log("You have cliked me!!");
     try {
       dispatch(SetLoading(true));
       let response = null;
